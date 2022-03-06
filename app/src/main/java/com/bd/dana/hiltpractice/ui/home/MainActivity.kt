@@ -22,9 +22,14 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getTvShows().observe(this, Observer { list ->
 
-            if (!list.isNullOrEmpty()){
-                binding?.dataCount?.text = list.size.toString()
-            }
+
+            viewModel.getTvShowsEpi().observe(this, Observer { it ->
+                if (!list.isNullOrEmpty() && !it.tvShows.isNullOrEmpty()){
+                    binding?.dataCount?.text = "${list.size} , ${it.tvShows.size}"
+                }
+            })
+
+
 
         })
     }
