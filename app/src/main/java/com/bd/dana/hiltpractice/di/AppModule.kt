@@ -2,6 +2,7 @@ package com.bd.dana.hiltpractice.di
 
 import android.app.Application
 import com.bd.dana.hiltpractice.BuildConfig
+import com.bd.dana.hiltpractice.api.RetrofitUtils.retrofitInstance
 import com.bd.dana.hiltpractice.api.endpoint.ApiService
 import com.bd.dana.hiltpractice.api.endpoint.ApiService2
 import com.bd.dana.hiltpractice.helper.Constants
@@ -36,55 +37,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun getGson(): Gson {
-        return GsonBuilder().setLenient().setPrettyPrinting().create()
-    }
-    @Provides
-    @Singleton
-    fun createCache(application: Application): Cache {
-        val cacheSize = 5L * 1024L * 1024L // 5 MB
-        return Cache(File(application.cacheDir, "${application.packageName}.cache"), cacheSize)
-    }
-
-    @Provides
-    @Singleton
-    fun createOkHttpClient(cache: Cache?): OkHttpClient {
-        return OkHttpClient.Builder().apply {
-            if (BuildConfig.DEBUG) {
-                val httpLoggingInterceptor = HttpLoggingInterceptor()
-                val logging =
-                    httpLoggingInterceptor.apply {
-                        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                    }
-                addInterceptor(logging)
-            }
-            cache(cache)
-            readTimeout(30, TimeUnit.SECONDS)
-            writeTimeout(1, TimeUnit.MINUTES)
-            connectTimeout(30, TimeUnit.SECONDS)
-        }.build()
-    }
-
-    @Provides
-    @Singleton
     fun provideRetrofitInstance1(@Named("apiMovies") BASE_URL: String, gson: Gson, httpClient: OkHttpClient): ApiService =
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(NetworkResponseAdapterFactory())
-            .client(httpClient)
-            .build()
+        retrofitInstance(baseUrl = BASE_URL, gson, httpClient)
             .create(ApiService::class.java)
 
     @Provides
     @Singleton
     fun provideRetrofitInstance2(@Named("apiMovies2") BASE_URL: String, gson: Gson, httpClient: OkHttpClient): ApiService2 =
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(NetworkResponseAdapterFactory())
-            .client(httpClient)
-            .build()
+        retrofitInstance(baseUrl = BASE_URL, gson, httpClient)
             .create(ApiService2::class.java)
 
 }
