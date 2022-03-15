@@ -7,16 +7,25 @@
     tools:context=".ui.home.MainActivity">
 
     <TextView
-        android:id="@+id/dataCount"
-        android:layout_width="wrap_content"
+        android:id="@+id/totalInstalledApp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="24sp"
+        android:text="111"
+        android:textAlignment="center"
         android:textStyle="bold"
-        android:textColor="#FF0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/totalInstalledApp"
+        tools:listitem="@layout/item_view_each_app" />
 </androidx.constraintlayout.widget.ConstraintLayout>
