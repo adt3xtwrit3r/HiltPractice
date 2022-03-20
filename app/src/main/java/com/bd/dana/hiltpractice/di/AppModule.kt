@@ -1,8 +1,11 @@
 package com.bd.dana.hiltpractice.di
 
+import android.content.Context
 import com.bd.dana.hiltpractice.api.RetrofitUtils.retrofitInstance
 import com.bd.dana.hiltpractice.api.endpoint.ApiService
 import com.bd.dana.hiltpractice.api.endpoint.ApiService2
+import com.bd.dana.hiltpractice.db.AppDao
+import com.bd.dana.hiltpractice.db.AppDataBase
 import com.bd.dana.hiltpractice.helper.Constants
 import com.google.gson.Gson
 import dagger.Module
@@ -36,5 +39,18 @@ object AppModule {
     fun provideRetrofitInstance2(@Named("apiMovies2") BASE_URL: String, gson: Gson, httpClient: OkHttpClient): ApiService2 =
         retrofitInstance(baseUrl = BASE_URL, gson, httpClient)
             .create(ApiService2::class.java)
+
+    @Provides
+    @Singleton
+    @Named("appDataBase")
+    fun getAppDataBase(context: Context): AppDataBase {
+        return AppDataBase.getAppDBInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    fun getAppDao(@Named("appDataBase") appDatabase: AppDataBase): AppDao {
+        return appDatabase.getAppDao()
+    }
 
 }
