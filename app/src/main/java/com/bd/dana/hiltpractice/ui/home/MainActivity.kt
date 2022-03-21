@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bd.dana.hiltpractice.R
 import com.bd.dana.hiltpractice.api.models.app_model.AppModel
+import com.bd.dana.hiltpractice.api.models.app_model.AppTable
 import com.bd.dana.hiltpractice.broadcast_receiver.OpenAppBroadcast
 import com.bd.dana.hiltpractice.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +32,7 @@ import java.util.*
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var installedAppsList: MutableList<AppModel>
+    private lateinit var installedAppsList: MutableList<AppTable>
 
     private var binding: ActivityMainBinding? = null
     private val viewModel: HomeViewModel by viewModels()
@@ -112,13 +113,14 @@ class MainActivity : AppCompatActivity() {
             getInstalledApps()
             loadingDialog.dismiss()
             findViewById<TextView>(R.id.totalInstalledApp).text = "Total installed Apps: ${installedAppsList.size}"
-            dataAdapter.initLoad(installedAppsList)
+            viewModel.insertAllInstalledApp(installedAppsList)
+            //dataAdapter.initLoad(installedAppsList)
         }, 500)
 
     }
 
     @SuppressLint("QueryPermissionsNeeded")
-    private fun getInstalledApps(): List<AppModel> {
+    private fun getInstalledApps(): List<AppTable> {
         installedAppsList.clear()
         val packs = packageManager.getInstalledPackages(0)
         for (i in packs.indices) {
@@ -127,10 +129,10 @@ class MainActivity : AppCompatActivity() {
                 val appName = p.applicationInfo.loadLabel(packageManager).toString()
                 val icon = p.applicationInfo.loadIcon(packageManager)
                 val packages = p.applicationInfo.packageName
-                installedAppsList.add(AppModel(appName, icon, packages))
+                installedAppsList.add(AppTable(appName = appName, packageName =  packages))
             }
         }
-        installedAppsList.sortBy { it.getName().capitalized() }
+        //installedAppsList.sortBy { it.getName().capitalized() }
         return installedAppsList
     }
 

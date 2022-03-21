@@ -1,6 +1,7 @@
 package com.bd.dana.hiltpractice.di
 
 import android.content.Context
+import androidx.room.Room
 import com.bd.dana.hiltpractice.api.RetrofitUtils.retrofitInstance
 import com.bd.dana.hiltpractice.api.endpoint.ApiService
 import com.bd.dana.hiltpractice.api.endpoint.ApiService2
@@ -43,8 +44,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun getAppDataBase(@ApplicationContext context: Context): AppDataBase {
-        return AppDataBase.getAppDBInstance(context)
+    fun buildDatabase(@ApplicationContext context: Context) :AppDataBase {
+        return Room.databaseBuilder(context.applicationContext, AppDataBase::class.java, "app_db").build()
     }
 
     @Provides

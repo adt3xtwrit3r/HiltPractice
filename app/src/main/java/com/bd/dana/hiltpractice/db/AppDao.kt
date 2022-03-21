@@ -11,13 +11,10 @@ import com.bd.dana.hiltpractice.api.models.app_model.AppTable
 interface AppDao {
 
     @Query("SELECT * FROM appTable")
-    suspend fun getAllInstalledApps(): LiveData<List<AppTable>>
+    suspend fun getAllInstalledApps(): List<AppTable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertInstalledApp(appList: List<AppTable>): List<Long>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertInstalledApp(appTable: AppTable)
 
     @Query("DELETE FROM appTable")
     suspend fun deleteAllAppData()

@@ -19,11 +19,15 @@ constructor
 
     suspend fun getTvShowEpi() = apiService2.getTvShowsEpi()
 
-    suspend fun getAllInstalledApps(): LiveData<List<AppTable>> {
+    suspend fun getAllInstalledApps(): List<AppTable> {
         return appDao.getAllInstalledApps()
     }
 
     suspend fun insertAllInstalledApp(appList: List<AppTable>): List<Long> {
         return appDao.insertInstalledApp(appList)
+    }
+
+    suspend fun deleteAllAppData() {
+        return appDao.deleteAllAppData()
     }
 }

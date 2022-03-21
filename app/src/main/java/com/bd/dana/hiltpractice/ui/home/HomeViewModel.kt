@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bd.dana.hiltpractice.api.models.app_model.AppTable
 import com.bd.dana.hiltpractice.api.models.tv_show.TvShowsModelItem
 import com.bd.dana.hiltpractice.api.models.tv_show_epi.TvShowEpi
 import com.bd.dana.hiltpractice.helper.Constants.exhaustive
@@ -65,6 +66,39 @@ constructor(private val repository: AppRepository) : ViewModel() {
                         val message = "কোথাও কোনো সমস্যা হচ্ছে, আবার চেষ্টা করুন"
                     }
                 }.exhaustive
+            }
+        }
+        return responseBody
+    }
+
+    fun getAllInstalledApps(): LiveData<List<AppTable>> {
+        val responseBody = MutableLiveData<List<AppTable>>()
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = repository.getAllInstalledApps()
+            withContext(Dispatchers.Main) {
+                responseBody.value = response
+            }
+        }
+        return responseBody
+    }
+
+    fun insertAllInstalledApp(list: List<AppTable>): LiveData<List<Long>> {
+        val responseBody = MutableLiveData<List<Long>>()
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = repository.insertAllInstalledApp(list)
+            withContext(Dispatchers.Main) {
+                responseBody.value = response
+            }
+        }
+        return responseBody
+    }
+
+    fun deleteAllAppData(): LiveData<Boolean> {
+        val responseBody = MutableLiveData<Boolean>(false)
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = repository.deleteAllAppData()
+            withContext(Dispatchers.Main) {
+                responseBody.value = true
             }
         }
         return responseBody
