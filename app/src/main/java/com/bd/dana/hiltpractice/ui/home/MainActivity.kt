@@ -114,7 +114,9 @@ class MainActivity : AppCompatActivity() {
             loadingDialog.dismiss()
             findViewById<TextView>(R.id.totalInstalledApp).text = "Total installed Apps: ${installedAppsList.size}"
             viewModel.insertAllInstalledApp(installedAppsList)
-            //dataAdapter.initLoad(installedAppsList)
+            viewModel.getAllInstalledApps().observe(this, androidx.lifecycle.Observer {
+                dataAdapter.initLoad(it)
+            })
         }, 500)
 
     }
@@ -132,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                 installedAppsList.add(AppTable(appName = appName, packageName =  packages))
             }
         }
-        //installedAppsList.sortBy { it.getName().capitalized() }
+        installedAppsList.sortBy { it.appName?.capitalized() }
         return installedAppsList
     }
 

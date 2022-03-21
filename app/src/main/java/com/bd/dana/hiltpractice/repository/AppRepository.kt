@@ -1,6 +1,5 @@
 package com.bd.dana.hiltpractice.repository
 
-import androidx.lifecycle.LiveData
 import com.bd.dana.hiltpractice.api.endpoint.ApiService
 import com.bd.dana.hiltpractice.api.endpoint.ApiService2
 import com.bd.dana.hiltpractice.api.models.app_model.AppTable
