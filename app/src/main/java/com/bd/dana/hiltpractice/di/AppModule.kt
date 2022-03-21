@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import javax.inject.Named
@@ -42,7 +43,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun getAppDataBase(context: Context): AppDataBase {
+    fun getAppDataBase(@ApplicationContext context: Context): AppDataBase {
         return AppDataBase.getAppDBInstance(context)
     }
 
