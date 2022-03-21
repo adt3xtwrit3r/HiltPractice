@@ -42,14 +42,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named("appDataBase")
     fun getAppDataBase(context: Context): AppDataBase {
         return AppDataBase.getAppDBInstance(context)
     }
 
     @Provides
     @Singleton
-    fun getAppDao(@Named("appDataBase") appDatabase: AppDataBase): AppDao {
+    fun getAppDao(appDatabase: AppDataBase): AppDao {
         return appDatabase.getAppDao()
     }
 

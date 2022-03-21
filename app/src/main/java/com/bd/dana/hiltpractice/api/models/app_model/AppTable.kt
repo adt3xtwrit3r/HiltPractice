@@ -12,15 +12,15 @@ data class AppTable(
     private val id: Int = 0,
 
     @ColumnInfo(name = "appName")
-    private val appName: String?,
+    private val appName: String,
 
     @ColumnInfo(name = "packageName")
-    private val packageName: String?,
+    private val packageName: String,
 
     @ColumnInfo(name = "appSchedule")
-    private val appSchedule:Long?,
+    private val appSchedule:Long,
 
     @ColumnInfo(name = "scheduleRequestCode")
-    private val scheduleRequestCode:Int?
+    private val scheduleRequestCode:Int
 
 )
